@@ -1,0 +1,42 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+
+:local {
+  .message {
+    margin: 1em 0;
+    font-size: 20px;
+    line-height: 1.5em;
+  }
+  .icon {
+    display: inline-block;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 2em;
+    height: 1.3em;
+  }
+  .icon-youtube {
+    composes: icon;
+    background-image: url("../img/youtube.svg");
+  }
+  .icon-vk {
+    composes: icon;
+    background-image: url("../img/vk.svg");
+  }
+  .displayName {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 10px 0 0;
+    padding: 0 5px;
+    background-color: $gray-200;
+    color: $gray-800;
+    font-weight: 600;
+  }
+  .text {
+    vertical-align: middle;
+    color: #000;
+  }
+  .dateTime {
+    color: $gray-500;
+  }
+}

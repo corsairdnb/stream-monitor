@@ -1,5 +1,11 @@
 {
   "compilerOptions": {
+    "paths": {
+      "*": [
+        "types/*"
+      ]
+    },
+    "baseUrl": ".",
     "target": "es5",
     "moduleResolution": "node",
     "module": "commonjs",
@@ -10,7 +16,7 @@
       "dom.iterable",
       "scripthost"
     ],
-    "types": [],
+    "types": ["jest"],
 
     "alwaysStrict": true,
     "strictNullChecks": true,
@@ -18,7 +24,7 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
-    
+
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
 
@@ -37,6 +43,8 @@
     "node_modules/@types/**/*.d.ts"
   ],
   "exclude": [
-    "dist"
+    "app/dist",
+    "node_modules",
+    "release"
   ]
 }

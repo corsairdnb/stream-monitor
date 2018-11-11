@@ -9,7 +9,7 @@ import Routes from '../routes';
 interface IRootType {
   store: Redux.Store<any>;
   history: History
-};
+}
 
 export default function Root({ store, history }: IRootType) {
   return (

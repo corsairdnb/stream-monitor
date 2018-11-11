@@ -1,3 +1,4 @@
+/*
 import '../utils/enzymeConfig';
 
 import { spy } from 'sinon';
@@ -55,3 +56,4 @@ describe('Counter component', () => {
     expect(actions.incrementAsync.called).toBe(true);
   });
 });
+*/

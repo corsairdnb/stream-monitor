@@ -4,8 +4,9 @@ import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
 import './app.global.scss';
 
-const { configureStore, history } = require('./store/configureStore');
-const store = configureStore();
+const { store, history } = require('./store/configureStore');
+
+// require('dotenv').config();
 
 render(
   <AppContainer>

@@ -43,3 +43,7 @@ main.js
 main.js.map
 
 .idea
+.env
+.client-secret.json
+.youtube-credentials.json
+.vk-token.json

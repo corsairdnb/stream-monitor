@@ -1,4 +1,75 @@
-const { app, BrowserWindow, Menu, shell } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
+const authenticateVK = require('electron-vk-oauth2');
+const fs = require('fs');
+const path = require('path');
+const shell = require('shelljs');
+const createIfNotExist = require('create-if-not-exist');
+
+const SETTINGS_DIR = path.resolve(process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE, '.stream-monitor');
+const SETTINGS_PATH = path.resolve(SETTINGS_DIR, '.settings');
+
+shell.mkdir('-p', SETTINGS_DIR);
+createIfNotExist(SETTINGS_PATH, '');
+
+require('dotenv').config({ path: SETTINGS_PATH});
+
+if (!process.env.REACT_APP_GOOGLE_CLIENT_SECRET) {
+  console.log(`Please save following settings in ${SETTINGS_PATH}:`);
+  console.dir(fs.readFileSync(path.resolve(__dirname, '../', '.settings.example'), 'utf-8'));
+
+  if (!process.env.REACT_APP_YOUTUBE_CREDENTIALS) {
+    const electronGoogleOauth = require('electron-google-oauth');
+
+    const browserWindowParams = {
+      center: true,
+      show: true,
+      resizable: false,
+      webPreferences: {
+        nodeIntegration: false
+      }
+    };
+
+    const googleOauth = electronGoogleOauth(browserWindowParams);
+
+    googleOauth.getAccessToken(
+      [process.env.REACT_APP_GOOGLE_SCOPE],
+      keys.installed.client_id,
+      keys.installed.client_secret
+    ).then((result) => {
+      const content = JSON.stringify(result);
+      fs.writeFile(path.resolve(SETTINGS_DIR, '.youtube'), content, 'utf8', function (err) {
+        if (err) {
+          return console.log(err);
+        }
+        console.log(`Youtube credentials saved to ${SETTINGS_DIR}`);
+      });
+      console.log('result', result);
+    }).catch((err) => {
+      console.error(err);
+    });
+  }
+
+  if (!process.env.REACT_APP_VK_TOKEN) {
+    authenticateVK({
+      appId: process.env.REACT_APP_VK_APP_ID,
+      scope: 'video',
+      revoke: false,
+    }, {
+      parent: mainWindow,
+    }).then((res) => {
+      fs.writeFile(path.resolve(SETTINGS_DIR, '.vk-token'), res.accessToken, 'utf8', function (err) {
+        if (err) {
+          return console.log(err);
+        }
+        console.log(`VK token saved to ${SETTINGS_DIR}`);
+      });
+    }).catch((err) => {
+      console.error(err);
+    });
+  }
+}
+
+const keys = process.env.REACT_APP_GOOGLE_CLIENT_SECRET;
 
 let menu;
 let template;
@@ -11,7 +82,6 @@ if (process.env.NODE_ENV === 'production') {
 
 if (process.env.NODE_ENV === 'development') {
   require('electron-debug')(); // eslint-disable-line global-require
-  const path = require('path'); // eslint-disable-line
   const p = path.join(__dirname, '..', 'app', 'node_modules'); // eslint-disable-line
   require('module').globalPaths.push(p); // eslint-disable-line
 }
@@ -269,4 +339,5 @@ app.on('ready', () =>
     menu = Menu.buildFromTemplate(template);
     mainWindow.setMenu(menu);
   }
+
 }));
