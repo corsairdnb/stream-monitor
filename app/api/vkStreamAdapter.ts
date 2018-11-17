@@ -20,7 +20,7 @@ export class VkStreamAdapter extends StreamAdapter<VkStream> {
     }
     return {
       id: item.id,
-      text: item.text,
+      text: item.text.replace(/^\[.*\|(.*)]/, '$1'),
       source: MessageSource.VK,
       dateTime: item.date,
       displayName: name,

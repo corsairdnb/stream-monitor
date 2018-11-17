@@ -29,6 +29,7 @@ export const chat = createModel({
         messages: payload,
         chatStatus: ChatStatus.CONNECTED
       };
+      window.scrollTo(0, document.body.scrollHeight);
       return {...state, ...newState};
     },
     onStop(state: IChatState): IChatState {
